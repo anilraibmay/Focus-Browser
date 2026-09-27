@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus AdBlocker & Reader</title>
+  <style>
+    :root {
+      --bg-color: #121318;
+      --card-bg: #1c1e24;
+      --card-border: #2e323d;
+      --primary: #bb86fc;
+      --accent: #03dac6;
+      --text-main: #ffffff;
+      --text-sub: #a0a5b5;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      width: 350px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px;
+      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-title h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background-color: rgba(3, 218, 198, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(3, 218, 198, 0.3);
+    }
+
+    .status-badge.disabled {
+      background-color: rgba(255, 82, 82, 0.15);
+      color: #ff5252;
+      border: 1px solid rgba(255, 82, 82, 0.3);
+    }
+
+    .counter-card {
+      background: linear-gradient(135deg, #1f222e, #181a24);
+      border-radius: 12px;
+      padding: 14px;
+      border: 1px solid var(--card-border);
+      text-align: center;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .counter-number {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .counter-label {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .controls-group {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .control-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .control-desc {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    /* Custom Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #383c4a;
+      transition: .2s ease-in-out;
+      border-radius: 22px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s ease-in-out;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+
+    input:disabled + .slider {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Section Header */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-label button {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0;
+    }
+
+    /* Downloader Card & Media List */
+    .downloader-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 10px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .media-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .media-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #232631;
+      padding: 10px 12px;
+      border-radius: 8px;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .media-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .media-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .media-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .media-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+
+    .media-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .platform-badge {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .platform-youtube {
+      background: rgba(255, 0, 0, 0.25);
+      color: #ff5252;
+      border: 1px solid rgba(255, 82, 82, 0.4);
+    }
+    .platform-facebook {
+      background: rgba(24, 119, 242, 0.25);
+      color: #589bff;
+      border: 1px solid rgba(88, 155, 255, 0.4);
+    }
+    .platform-default {
+      background: rgba(187, 134, 252, 0.2);
+      color: var(--primary);
+      border: 1px solid rgba(187, 134, 252, 0.3);
+    }
+
+    .media-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 3px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    .btn-download {
+      background: var(--accent);
+      color: #121212;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #02c0ae;
+    }
+
+    .btn-copy-stream {
+      background: #ffb300;
+      color: #121212;
+    }
+    .btn-copy-stream:hover {
+      background: #ffa000;
+    }
+
+    .empty-media {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-sub);
+      padding: 14px 0;
+    }
+
+    /* Notice Banner for Stream / Manifest Links */
+    .info-banner {
+      display: none;
+      background: rgba(255, 179, 0, 0.12);
+      border: 1px solid rgba(255, 179, 0, 0.3);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 10px;
+      color: #ffd54f;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    /* Theme Picker Buttons */
+    .theme-picker {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .theme-btn {
+      padding: 8px 4px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-sub);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .theme-btn.active {
+      background: var(--primary);
+      color: #121212;
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #2b2f3d;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: #3a3f52;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-title">
+      <h3>Focus Browser</h3>
+    </div>
+    <div id="statusBadge" class="status-badge">Proteção Ativa</div>
+  </div>
+
+  <div class="counter-card">
+    <div class="counter-number" id="count">0</div>
+    <div class="counter-label">Anúncios & Popups Bloqueados</div>
+  </div>
+
+  <div class="controls-group">
+    <div class="control-row">
+      <div class="control-info">
+        <span class="control-title">AdBlocker Geral</span>
+        <span class="control-desc">Bloqueia redes de anúncios e banners</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggleEnabled" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="control-row">
+      <div class="control-info">
+        <span class="control-title">Bloqueio Total (Strict)</span>
+        <span class="control-desc">Remove popups, cookies e trackers</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggleTotalBlock" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="control-row">
+      <div class="control-info">
+        <span class="control-title">Modo Sem Foco</span>
+        <span class="control-desc">Interface de leitura limpa e sem distrações</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggleFocusMode">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <span>📥 Detector de Mídias & Streams</span>
+    <button id="btnScanMedia">🔄 Escanear Página</button>
+  </div>
+
+  <div class="downloader-card">
+    <div id="mediaList" class="media-list">
+      <div class="empty-media">Escaneando mídias na página...</div>
+    </div>
+  </div>
+
+  <div id="infoBanner" class="info-banner">
+    <strong>💡 Por que links de streaming são copiados?</strong><br>
+    Vídeos no YouTube, Facebook e sites de streaming não ficam em um único arquivo .mp4, e sim em <em>manifestos (JSON/HLS/DASH)</em> com dezenas de pedaços de áudio/vídeo. Cole o link no <strong>VLC</strong>, <strong>yt-dlp</strong> ou <strong>IDM</strong> para baixar o vídeo completo!
+  </div>
+
+  <span class="section-label">Background / Tema de Leitura</span>
+  <div class="theme-picker">
+    <button class="theme-btn active" data-theme="normal">Normal</button>
+    <button class="theme-btn" data-theme="dark">Escuro</button>
+    <button class="theme-btn" data-theme="sepia">Sépia</button>
+    <button class="theme-btn" data-theme="oled">OLED</button>
+  </div>
+
+  <div class="footer-actions">
+    <button class="btn-action" id="btnReloadTab">
+      <span>🔄 Recarregar Página</span>
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

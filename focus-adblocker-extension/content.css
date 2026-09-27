@@ -1,0 +1,129 @@
+/* ==========================================================
+   Focus Browser Extension - Content Stylesheet
+   ========================================================== */
+
+/* 1. Bloqueio Cosmético Padrão de Anúncios (Reativo ao Toggle AdBlocker Geral) */
+html[data-focus-enabled="true"] .ad, 
+html[data-focus-enabled="true"] .ads, 
+html[data-focus-enabled="true"] .ad-banner, 
+html[data-focus-enabled="true"] .s-sponsored, 
+html[data-focus-enabled="true"] .sponsored-post, 
+html[data-focus-enabled="true"] iframe[src*="doubleclick"], 
+html[data-focus-enabled="true"] iframe[src*="googlead"], 
+html[data-focus-enabled="true"] iframe[src*="ads"],
+html[data-focus-enabled="true"] iframe[src*="popads"],
+html[data-focus-enabled="true"] iframe[src*="exoclick"],
+html[data-focus-enabled="true"] div[id*="google_ads"],
+html[data-focus-enabled="true"] div[class*="ad-container"],
+html[data-focus-enabled="true"] aside[class*="sponsored"],
+html[data-focus-enabled="true"] [class*="taboola"],
+html[data-focus-enabled="true"] [id*="taboola"],
+html[data-focus-enabled="true"] [class*="outbrain"],
+html[data-focus-enabled="true"] [id*="outbrain"],
+html[data-focus-enabled="true"] .adsbygoogle {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* 2. Bloqueio Total (Strict Mode - Reativo ao Toggle Bloqueio Total) */
+html[data-focus-enabled="true"][data-focus-totalblock="true"] [id*="cookie"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] [class*="cookie"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] [id*="onetrust"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] .gdpr-modal,
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="popup-overlay"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="popunder"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[id*="popunder"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="newsletter-modal"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="paywall"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[id*="floating-ad"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="sticky-bottom-ad"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[class*="click-trap"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] div[id*="click-trap"],
+html[data-focus-enabled="true"][data-focus-totalblock="true"] .vjs-overlay,
+html[data-focus-enabled="true"][data-focus-totalblock="true"] .player-overlay-ad {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* 3. Modo Sem Foco (Distraction-Free / Reader View - Reativo ao Toggle Modo Sem Foco) */
+html[data-focus-enabled="true"][data-focus-reader="true"] header,
+html[data-focus-enabled="true"][data-focus-reader="true"] nav,
+html[data-focus-enabled="true"][data-focus-reader="true"] footer,
+html[data-focus-enabled="true"][data-focus-reader="true"] aside,
+html[data-focus-enabled="true"][data-focus-reader="true"] [class*="sidebar"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [id*="sidebar"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [class*="comment"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [id*="comment"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [class*="social-share"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [class*="related-posts"],
+html[data-focus-enabled="true"][data-focus-reader="true"] [class*="recommended"] {
+    display: none !important;
+}
+
+html[data-focus-enabled="true"][data-focus-reader="true"] article,
+html[data-focus-enabled="true"][data-focus-reader="true"] main,
+html[data-focus-enabled="true"][data-focus-reader="true"] .post-content,
+html[data-focus-enabled="true"][data-focus-reader="true"] .entry-content {
+    max-width: 820px !important;
+    margin: 40px auto !important;
+    padding: 24px !important;
+    font-size: 19px !important;
+    line-height: 1.8 !important;
+    float: none !important;
+    width: 90% !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-radius: 12px;
+}
+
+/* 4. Background Themes (Customização de Fundo Reativa Instantânea) */
+
+/* Tema Escuro (Dark) */
+html[data-focus-theme="dark"] {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+html[data-focus-theme="dark"] body,
+html[data-focus-theme="dark"] article,
+html[data-focus-theme="dark"] main {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+html[data-focus-theme="dark"] a {
+    color: #82b1ff !important;
+}
+
+/* Tema Sépia (Warm Sepia) */
+html[data-focus-theme="sepia"] {
+    background-color: #fbf0d9 !important;
+    color: #3c2f2f !important;
+}
+html[data-focus-theme="sepia"] body,
+html[data-focus-theme="sepia"] article,
+html[data-focus-theme="sepia"] main {
+    background-color: #f4e8c1 !important;
+    color: #3c2f2f !important;
+}
+html[data-focus-theme="sepia"] a {
+    color: #8c420b !important;
+}
+
+/* Tema OLED (Pitch Black) */
+html[data-focus-theme="oled"] {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+html[data-focus-theme="oled"] body,
+html[data-focus-theme="oled"] article,
+html[data-focus-theme="oled"] main {
+    background-color: #050505 !important;
+    color: #ffffff !important;
+}
+html[data-focus-theme="oled"] a {
+    color: #00e5ff !important;
+}

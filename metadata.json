@@ -1,0 +1,8 @@
+{
+  "name": "Focus Browser",
+  "description": "Um navegador web inovador e focado, que permite abrir abas e links externos em segundo plano ou em painel lateral/split-screen, com otimização completa para vídeos e transmissões em tela cheia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

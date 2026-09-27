@@ -1,0 +1,54 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Circular background with focus browser gradient -->
+    <path android:pathData="M 54,4 A 50,50 0 1,0 54.001,4 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="108"
+                android:endY="108"
+                android:type="linear">
+                <item
+                    android:color="#1A1C1E"
+                    android:offset="0.0" />
+                <item
+                    android:color="#4A148C"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Outer focus/viewfinder brackets -->
+    <path
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 34,26 H 26 V 34 M 74,26 H 82 V 34 M 34,82 H 26 V 74 M 74,82 H 82 V 74" />
+
+    <!-- Center Browser Globe circles -->
+    <path
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF"
+        android:pathData="M 54,34 A 20 20 0 1 0 54.0001,34 Z" />
+        
+    <!-- Equator and major vertical meridian grid lines -->
+    <path
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:pathData="M 34,54 H 74 M 54,34 V 74" />
+        
+    <!-- Curved meridian curves -->
+    <path
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:pathData="M 54,34 A 9 20 0 0 1 54,74 A 9 20 0 0 1 54,34 Z" />
+
+</vector>

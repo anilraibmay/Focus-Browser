@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer camera/viewfinder brackets for focus indication -->
+    <path
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 34,26 H 26 V 34 M 74,26 H 82 V 34 M 34,82 H 26 V 74 M 74,82 H 82 V 74" />
+
+    <!-- Center Browser Globe circles representing navigation -->
+    <path
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF"
+        android:pathData="M 54,34 A 20 20 0 1 0 54.0001,34 Z" />
+        
+    <!-- Equator and major vertical meridian grid lines inside globe -->
+    <path
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:pathData="M 34,54 H 74 M 54,34 V 74" />
+        
+    <!-- Curved grid curves (meridians curves inside) -->
+    <path
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:pathData="M 54,34 A 9 20 0 0 1 54,74 A 9 20 0 0 1 54,34 Z" />
+
+</vector>
